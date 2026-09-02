@@ -68,7 +68,7 @@
             border: 3px solid #2ecc71;
         }
 
-        /* Tabelle für Diphthonge */
+        /* Tabelle */
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { border: 2px solid #3498db; padding: 10px; text-align: center; }
         th { background-color: #ebf5fb; }
@@ -142,10 +142,11 @@
 <body>
 
     <h1>🏛️ Altgriechisch für Kids</h1>
-    <p class="subtitle">Lerne Buchstaben, Diphthonge, Wörter und Sätze!</p>
+    <p class="subtitle">Buchstaben, Mitlaute, Diphthonge, Wörter und Sätze!</p>
 
     <div class="mode-buttons">
         <button class="nav-btn" onclick="showSection('alphabet')">🔤 Alphabet</button>
+        <button class="nav-btn" onclick="showSection('consonants')">⚡ Mitlaute-Trainer</button>
         <button class="nav-btn" onclick="showSection('diphthongs')">🗣️ Doppelvokale</button>
         <button class="nav-btn" onclick="showSection('words')">📖 Wörter lesen</button>
         <button class="nav-btn" onclick="showSection('sentences')">🧩 Sätze bauen</button>
@@ -154,7 +155,10 @@
     <!-- 1. Alphabet Bereich -->
     <div class="grid" id="alphabet-grid"></div>
 
-    <!-- 2. Diphthonge Info-Bereich -->
+    <!-- 2. Mitlaute Trainer -->
+    <div class="grid" id="consonants-grid" style="display: none;"></div>
+
+    <!-- 3. Diphthonge Info-Bereich -->
     <div class="section-container" id="diphthongs-container">
         <h2>Doppelvokale (Diphthonge)</h2>
         <p>Wenn zwei Vokale zusammenstehen, verschmelzen sie zu einem neuen Laut:</p>
@@ -218,10 +222,10 @@
         </table>
     </div>
 
-    <!-- 3. Wörter lesen Bereich -->
+    <!-- 4. Wörter lesen Bereich -->
     <div class="grid" id="words-grid" style="display: none;"></div>
 
-    <!-- 4. Sätze bauen Bereich -->
+    <!-- 5. Sätze bauen Bereich -->
     <div class="section-container" id="sentences-container">
         <h2>Satz-Baumeister 🧩</h2>
         <p>Lerne einfache Sätze zu lesen und zu verstehen!</p>
@@ -244,44 +248,54 @@
     <script>
         // === 1. ALPHABET DATEN ===
         const alphabet = [
-            { char: 'Α α', name: 'Alpha', sound: 'A wie Apfel', speak: 'Alpha' },
-            { char: 'Β β', name: 'Beta', sound: 'B wie Ball', speak: 'Beta' },
-            { char: 'Γ γ', name: 'Gamma', sound: 'G wie Garten', speak: 'Gamma' },
-            { char: 'Δ δ', name: 'Delta', sound: 'D wie Dose', speak: 'Delta' },
-            { char: 'Ε ε', name: 'Epsilon', sound: 'Kurzes E wie Ente', speak: 'Epsilon' },
-            { char: 'Ζ ζ', name: 'Zeta', sound: 'Weiches Z (dz)', speak: 'Seta' },
-            { char: 'Η η', name: 'Eta', sound: 'Langes E wie Esel', speak: 'Eta' },
-            { char: 'Θ θ', name: 'Theta', sound: 'Hauch-T (th)', speak: 'Theta' },
-            { char: 'Ι ι', name: 'Iota', sound: 'I wie Igel', speak: 'Iota' },
-            { char: 'Κ κ', name: 'Kappa', sound: 'K wie Katze', speak: 'Kappa' },
-            { char: 'Λ λ', name: 'Lambda', sound: 'L wie Lampe', speak: 'Lambda' },
-            { char: 'Μ μ', name: 'My', sound: 'M wie Maus', speak: 'Mi' },
-            { char: 'Ν ν', name: 'Ny', sound: 'N wie Nest', speak: 'Ni' },
-            { char: 'Ξ ξ', name: 'Xi', sound: 'X wie Xylophon', speak: 'Xi' },
-            { char: 'Ο ο', name: 'Omikron', sound: 'Kurzes O wie Ordner', speak: 'Omikron' },
-            { char: 'Π π', name: 'Pi', sound: 'P wie Pinguin', speak: 'Pi' },
-            { char: 'Ρ ρ', name: 'Rho', sound: 'Gerolltes R', speak: 'Rho' },
-            { char: 'Σ σ/ς', name: 'Sigma', sound: 'S wie Sonne', speak: 'Sigma' },
-            { char: 'Τ τ', name: 'Tau', sound: 'T wie Tiger', speak: 'Tau' },
-            { char: 'Υ υ', name: 'Ypsilon', sound: 'Ü wie Überraschung', speak: 'Ypsilon' },
-            { char: 'Φ φ', name: 'Phi', sound: 'F wie Fisch', speak: 'Phi' },
-            { char: 'Χ χ', name: 'Chi', sound: 'CH wie Buch', speak: 'Chi' },
-            { char: 'Ψ ψ', name: 'Psi', sound: 'PS wie Psyche', speak: 'Psi' },
-            { char: 'Ω ω', name: 'Omega', sound: 'Langes O wie Oma', speak: 'Omega' }
+            { char: 'Α α', name: 'Alpha', sound: 'A wie Apfel', speakText: 'Alpha' },
+            { char: 'Β β', name: 'Beta', sound: 'B wie Ball', speakText: 'Beta' },
+            { char: 'Γ γ', name: 'Gamma', sound: 'G wie Garten', speakText: 'Gamma' },
+            { char: 'Δ δ', name: 'Delta', sound: 'D wie Dose', speakText: 'Delta' },
+            { char: 'Ε ε', name: 'Epsilon', sound: 'Kurzes E wie Ente', speakText: 'Epsilon' },
+            { char: 'Ζ ζ', name: 'Zeta', sound: 'Weiches Z (dz)', speakText: 'Zeta' },
+            { char: 'Η η', name: 'Eta', sound: 'Langes E wie Esel', speakText: 'Eta' },
+            { char: 'Θ θ', name: 'Theta', sound: 'Hauch-T (th)', speakText: 'Theta' },
+            { char: 'Ι ι', name: 'Iota', sound: 'I wie Igel', speakText: 'Iota' },
+            { char: 'Κ κ', name: 'Kappa', sound: 'K wie Katze', speakText: 'Kappa' },
+            { char: 'Λ λ', name: 'Lambda', sound: 'L wie Lampe', speakText: 'Lambda' },
+            { char: 'Μ μ', name: 'My', sound: 'M wie Maus', speakText: 'My' },
+            { char: 'Ν ν', name: 'Ny', sound: 'N wie Nest', speakText: 'Ny' },
+            { char: 'Ξ ξ', name: 'Xi', sound: 'X wie Xylophon', speakText: 'Xi' },
+            { char: 'Ο ο', name: 'Omikron', sound: 'Kurzes O wie Ordner', speakText: 'Omikron' },
+            { char: 'Π π', name: 'Pi', sound: 'P wie Pinguin', speakText: 'Pi' },
+            { char: 'Ρ ρ', name: 'Rho', sound: 'Gerolltes R', speakText: 'Rho' },
+            { char: 'Σ σ/ς', name: 'Sigma', sound: 'S wie Sonne', speakText: 'Sigma' },
+            { char: 'Τ τ', name: 'Tau', sound: 'T wie Tiger', speakText: 'Tau' },
+            { char: 'Υ υ', name: 'Ypsilon', sound: 'Ü wie Überraschung', speakText: 'Ypsilon' },
+            { char: 'Φ φ', name: 'Phi', sound: 'F wie Fisch', speakText: 'Phi' },
+            { char: 'Χ χ', name: 'Chi', sound: 'CH wie Buch', speakText: 'Chi' },
+            { char: 'Ψ ψ', name: 'Psi', sound: 'PS wie Psyche', speakText: 'Psi' },
+            { char: 'Ω ω', name: 'Omega', sound: 'Langes O wie Oma', speakText: 'Omega' }
         ];
 
-        // === 2. WÖRTER DATENBANK (Hier kannst du einfach neue Wörter ergänzen) ===
+        // === 2. SCHWIERIGE MITLAUTE ===
+        const consonants = [
+            { greek: 'Ψ ψ', rule: 'P + S Laut', phonetic: '[ ps ]', example: 'ψυχή (Seele)', speakText: 'ψυχή' },
+            { greek: 'Ξ ξ', rule: 'K + S Laut', phonetic: '[ ks ]', example: 'ξένος (Fremder)', speakText: 'ξένος' },
+            { greek: 'Θ θ', rule: 'Hauch-T', phonetic: '[ th ]', example: 'θεός (Gott)', speakText: 'θεός' },
+            { greek: 'Χ χ', rule: 'CH wie in "Buch"', phonetic: '[ ch ]', example: 'χρόνος (Zeit)', speakText: 'χρόνος' },
+            { greek: 'Φ φ', rule: 'F wie in "Fisch"', phonetic: '[ f ]', example: 'φίλος (Freund)', speakText: 'φίλος' },
+            { greek: 'ΓΓ', rule: 'G + G wird zu "NG"', phonetic: '[ ng ]', example: 'ἄγγελος (Engel)', speakText: 'ἄγγελος' }
+        ];
+
+        // === 3. WÖRTER DATENBANK ===
         const words = [
-            { greek: 'οἶ - κος', phonetic: '[ eu - kos ]', german: 'Haus', emoji: '🏠', speak: 'eukos' },
-            { greek: 'οὐ - ρα - νός', phonetic: '[ u - ra - nos ]', german: 'Himmel', emoji: '🌌', speak: 'uranos' },
-            { greek: 'αὐ - τός', phonetic: '[ au - tos ]', german: 'selbst / er', emoji: '👤', speak: 'autos' },
-            { greek: 'εἰ - ρή - νη', phonetic: '[ ei - rää - nä ]', german: 'Frieden', emoji: '🕊️', speak: 'eiränä' },
-            { greek: 'ἵπ - πος', phonetic: '[ hip - pos ]', german: 'Pferd', emoji: '🐴', speak: 'hippos' },
-            { greek: 'φί - λος', phonetic: '[ phi - los ]', german: 'Freund', emoji: '👦', speak: 'philos' },
-            { greek: 'βί - βλος', phonetic: '[ bi - blos ]', german: 'Buch', emoji: '📚', speak: 'biblos' }
+            { greek: 'οἶ - κος', phonetic: '[ eu - kos ]', german: 'Haus', emoji: '🏠', speakText: 'οἶκος' },
+            { greek: 'οὐ - ρα - νός', phonetic: '[ u - ra - nos ]', german: 'Himmel', emoji: '🌌', speakText: 'ουρανός' },
+            { greek: 'αὐ - τός', phonetic: '[ au - tos ]', german: 'selbst / er', emoji: '👤', speakText: 'αυτός' },
+            { greek: 'εἰ - ρή - νη', phonetic: '[ ei - rää - nä ]', german: 'Frieden', emoji: '🕊️', speakText: 'ειρήνη' },
+            { greek: 'ἵπ - πος', phonetic: '[ hip - pos ]', german: 'Pferd', emoji: '🐴', speakText: 'ἵππος' },
+            { greek: 'φί - λος', phonetic: '[ phi - los ]', german: 'Freund', emoji: '👦', speakText: 'φίλος' },
+            { greek: 'βί - βλος', phonetic: '[ bi - blos ]', german: 'Buch', emoji: '📚', speakText: 'βίβλος' }
         ];
 
-        // === 3. SÄTZE DATENBANK (Hier kannst du einfach neue Sätze ergänzen) ===
+        // === 4. SÄTZE DATENBANK ===
         const sentences = [
             {
                 greekBlocks: [
@@ -291,7 +305,7 @@
                 ],
                 phonetic: '[ Ho phi-los gra-phei tän bi-blon. ]',
                 german: '📝 Der Freund schreibt das Buch.',
-                speak: 'Ho philos graphei tän biblon'
+                speakText: 'Ὁ φίλος γράφει τὴν βίβλον.'
             },
             {
                 greekBlocks: [
@@ -301,13 +315,13 @@
                 ],
                 phonetic: '[ Ho hip-pos tre-chei eis ton eu-kon. ]',
                 german: '🐴 Das Pferd rennt in das Haus.',
-                speak: 'Ho hippos trechei eis ton eukon'
+                speakText: 'Ὁ ἵππος τρέχει εἰς τὸν οἶκον.'
             }
         ];
 
         let currentSpeakText = '';
 
-        // Alphabet-Grid befüllen
+        // Alphabet-Grid
         const grid = document.getElementById('alphabet-grid');
         alphabet.forEach(item => {
             const card = document.createElement('div');
@@ -321,7 +335,23 @@
             grid.appendChild(card);
         });
 
-        // Wörter-Grid befüllen
+        // Mitlaute-Grid
+        const consonantsGrid = document.getElementById('consonants-grid');
+        consonants.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.borderColor = '#e74c3c';
+            card.innerHTML = `
+                <div class="letter" style="color:#e74c3c;">${item.greek}</div>
+                <div class="phonetic">${item.phonetic}</div>
+                <div class="name">${item.rule}</div>
+                <div class="sound" style="margin-top:5px;">Beispiel: ${item.example}</div>
+            `;
+            card.onclick = () => speak(item.speakText);
+            consonantsGrid.appendChild(card);
+        });
+
+        // Wörter-Grid
         const wordsGrid = document.getElementById('words-grid');
         words.forEach(item => {
             const card = document.createElement('div');
@@ -333,11 +363,11 @@
                 <div class="phonetic">${item.phonetic}</div>
                 <div class="name" style="color: #27ae60;">${item.german}</div>
             `;
-            card.onclick = () => speak(item.speak);
+            card.onclick = () => speak(item.speakText);
             wordsGrid.appendChild(card);
         });
 
-        // Sätze-Liste befüllen
+        // Sätze-Liste
         const sentencesList = document.getElementById('sentences-list');
         sentences.forEach(item => {
             const card = document.createElement('div');
@@ -353,18 +383,18 @@
                 <div class="sentence-greek">${blocksHTML}</div>
                 <div class="sentence-phonetic">${item.phonetic}</div>
                 <div class="sentence-german">${item.german}</div>
-                <button class="action-btn" style="margin-top:8px;" onclick="speak('${item.speak}')">🔊 Satz hören</button>
+                <button class="action-btn" style="margin-top:8px;" onclick="speak('${item.speakText}')">🔊 Satz hören</button>
             `;
             sentencesList.appendChild(card);
         });
 
-        // Audio Vorlesen
+        // Sprachausgabe auf Griechisch
         function speak(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'de-DE'; // Deutsche Stimme liest Lautschrift klar ohne englischen Akzent
-                utterance.rate = 0.75; // Langsam für Kinder
+                utterance.lang = 'el-GR'; // Griechische Stimme liest echtes Griechisch vor
+                utterance.rate = 0.7; // Etwas langsamer
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -378,11 +408,11 @@
         let painting = false;
 
         function openPractice(item) {
-            currentSpeakText = item.speak;
+            currentSpeakText = item.speakText;
             document.getElementById('modal-title').innerText = `${item.name} (${item.char})`;
             modal.style.display = 'flex';
             clearCanvas();
-            speak(item.speak);
+            speak(item.speakText);
             
             ctx.fillStyle = "#e0e0e0";
             ctx.font = "110px sans-serif";
@@ -427,6 +457,7 @@
         // Navigation
         function showSection(section) {
             document.getElementById('alphabet-grid').style.display = section === 'alphabet' ? 'grid' : 'none';
+            document.getElementById('consonants-grid').style.display = section === 'consonants' ? 'grid' : 'none';
             document.getElementById('diphthongs-container').style.display = section === 'diphthongs' ? 'block' : 'none';
             document.getElementById('words-grid').style.display = section === 'words' ? 'grid' : 'none';
             document.getElementById('sentences-container').style.display = section === 'sentences' ? 'block' : 'none';

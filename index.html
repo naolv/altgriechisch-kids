@@ -16,7 +16,6 @@
         h1 { color: #0056b3; margin-bottom: 5px; }
         .subtitle { color: #666; margin-bottom: 20px; }
         
-        /* Navigation / Modi */
         .mode-buttons { margin-bottom: 25px; flex-wrap: wrap; display: flex; justify-content: center; }
         .nav-btn {
             background-color: #3498db;
@@ -33,7 +32,6 @@
         }
         .nav-btn:active { transform: translateY(4px); box-shadow: none; }
         
-        /* Raster für Alphabet & Wörter */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -56,7 +54,6 @@
         .sound { color: #16a085; font-size: 0.85rem; margin-top: 3px; }
         .phonetic { color: #8e44ad; font-weight: bold; font-size: 0.9rem; margin-top: 3px; }
         
-        /* Sektionen */
         .section-container {
             display: none;
             background: white;
@@ -66,14 +63,17 @@
             border-radius: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             border: 3px solid #2ecc71;
+            text-align: left;
+        }
+        .section-container h2 {
+            text-align: center;
+            color: #27ae60;
         }
 
-        /* Tabelle */
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { border: 2px solid #3498db; padding: 10px; text-align: center; }
         th { background-color: #ebf5fb; }
 
-        /* Satz-Baumeister */
         .sentence-card {
             background: #f9f9f9;
             border: 2px dashed #3498db;
@@ -97,7 +97,6 @@
         .tag-verb { background-color: #fadbd8; color: #78281f; }
         .tag-object { background-color: #d5f5e3; color: #145a32; }
 
-        /* Modal für Schreibfeld */
         .modal {
             display: none;
             position: fixed;
@@ -114,6 +113,7 @@
             max-width: 400px;
             width: 90%;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
         }
         canvas {
             border: 3px dashed #3498db;
@@ -123,7 +123,6 @@
             touch-action: none;
         }
 
-        /* Buttons */
         button.action-btn {
             background-color: #2ecc71;
             color: white;
@@ -136,13 +135,70 @@
             font-weight: bold;
         }
         button.clear-btn { background-color: #e74c3c; }
+        button.check-btn { background-color: #f1c40f; color: #333; }
         button.close-btn { background-color: #95a5a6; }
+
+        #feedback-msg {
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 1.1rem;
+            min-height: 1.5em;
+        }
+
+        .history-box {
+            background: #fdfefe;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+        .example-box {
+            background: #eef7ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+        .quiz-question {
+            background: #f8f9f9;
+            border: 2px solid #bdc3c7;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        .quiz-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: #ffffff;
+            border: 2px solid #3498db;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .quiz-option:hover { background: #ebf5fb; }
+        .quiz-option.correct {
+            background: #2ecc71 !important;
+            color: white;
+            border-color: #27ae60;
+        }
+        .quiz-option.wrong {
+            background: #e74c3c !important;
+            color: white;
+            border-color: #c0392b;
+        }
     </style>
 </head>
 <body>
 
     <h1>🏛️ Altgriechisch für Kids</h1>
-    <p class="subtitle">Buchstaben, Mitlaute, Diphthonge, Wörter und Sätze!</p>
+    <p class="subtitle">Buchstaben, Sprache, Geschichte und Quiz!</p>
 
     <div class="mode-buttons">
         <button class="nav-btn" onclick="showSection('alphabet')">🔤 Alphabet</button>
@@ -150,15 +206,12 @@
         <button class="nav-btn" onclick="showSection('diphthongs')">🗣️ Doppelvokale</button>
         <button class="nav-btn" onclick="showSection('words')">📖 Wörter lesen</button>
         <button class="nav-btn" onclick="showSection('sentences')">🧩 Sätze bauen</button>
+        <button class="nav-btn" onclick="showSection('history')" style="background-color: #e67e22; box-shadow: 0 4px 0 #d35400;">🏛️ Athen &amp; Sparta</button>
     </div>
 
-    <!-- 1. Alphabet Bereich -->
     <div class="grid" id="alphabet-grid"></div>
-
-    <!-- 2. Mitlaute Trainer -->
     <div class="grid" id="consonants-grid" style="display: none;"></div>
 
-    <!-- 3. Diphthonge Info-Bereich -->
     <div class="section-container" id="diphthongs-container">
         <h2>Doppelvokale (Diphthonge)</h2>
         <p>Wenn zwei Vokale zusammenstehen, verschmelzen sie zu einem neuen Laut:</p>
@@ -222,31 +275,57 @@
         </table>
     </div>
 
-    <!-- 4. Wörter lesen Bereich -->
     <div class="grid" id="words-grid" style="display: none;"></div>
 
-    <!-- 5. Sätze bauen Bereich -->
     <div class="section-container" id="sentences-container">
         <h2>Satz-Baumeister 🧩</h2>
         <p>Lerne einfache Sätze zu lesen und zu verstehen!</p>
         <div id="sentences-list"></div>
     </div>
 
-    <!-- Modal für das Schreibfeld -->
+    <div class="section-container" id="history-container">
+        <h2>🏛️ Das alte Griechenland: Athen vs. Sparta</h2>
+        
+        <div class="history-box">
+            <h3>🦉 Athen – Die Stadt des Wissens und der Kunst</h3>
+            <p>Athen war berühmt für Philosophen, Theater und schöne Bauwerke wie die Akropolis. Die Athener erfanden die <b>Demokratie</b> – eine Staatsform, in der die Bürger mitentscheiden durften. In Athen war Bildung sehr wichtig: Kinder lernten Lesen, Dichten, Rechnen und Musik.</p>
+            <div class="example-box">
+                <b>💡 Konkretes Beispiel aus Athen:</b><br>
+                Wenn in Athen ein neues Gesetz beschlossen werden sollte, trafen sich tausende Männer auf einem Hügel namens <i>Pnyx</i>. Jeder Bürger bekam einen kleinen Stein. Zum Abstimmen warf man seinen Stein in ein Tongefäss: Ein helfender Stein bedeutete „Ja“, ein anderer „Nein“. So zählte man am Ende einfach die Steine!
+            </div>
+        </div>
+
+        <div class="history-box" style="border-left-color: #e74c3c;">
+            <h3>🛡️ Sparta – Die Stadt der tapferen Krieger</h3>
+            <p>Sparta war ganz anders als Athen. Hier drehte sich fast alles um Disziplin, Mut und Stärke. Schon ab 7 Jahren wurden die spartanischen Kinder in der Gemeinschaft ausgebildet, um starke und ausdauernde Bürger zu werden. Sport und Disziplin standen an oberster Stelle.</p>
+            <div class="example-box" style="background: #fff5f5; border-color: #ffcccc;">
+                <b>💡 Konkretes Beispiel aus Sparta:</b><br>
+                Ein spartanischer Junge verließ mit 7 Jahren sein Zuhause und zog in ein Lager mit anderen Kindern (die sogenannte <i>Agoge</i>). Dort trug er das ganze Jahr über nur ein einziges leichtes Gewand – auch im kalten Winter – und lief barfuss. So lernten die Kinder gemeinsam, Ausdauer zu beweisen und nie schnell aufzugeben.
+            </div>
+        </div>
+
+        <h3>❓ Das große Athen &amp; Sparta Quiz</h3>
+        <p>Teste dein Wissen! Klicke auf die richtige Antwort:</p>
+        
+        <div id="quiz-box"></div>
+    </div>
+
     <div class="modal" id="write-modal">
         <div class="modal-content">
             <h2 id="modal-title">Schreibübung</h2>
             <p id="modal-subtitle">Spure den Buchstaben nach:</p>
             <canvas id="paint-canvas" width="260" height="260"></canvas>
-            <br>
+            
+            <div id="feedback-msg"></div>
+
             <button class="action-btn" onclick="speakCurrentLetter()">🔊 Hören</button>
-            <button class="action-btn clear-btn" onclick="clearCanvas()">🗑️ Löschen</button>
+            <button class="action-btn check-btn" onclick="checkWriting()">✨ Prüfen</button>
+            <button class="action-btn clear-btn" onclick="clearUserStrokes()">🗑️ Neuanfang</button>
             <button class="action-btn close-btn" onclick="closeModal()">❌ Fertig</button>
         </div>
     </div>
 
     <script>
-        // === 1. ALPHABET DATEN ===
         const alphabet = [
             { char: 'Α α', name: 'Alpha', sound: 'A wie Apfel', speakText: 'Alpha' },
             { char: 'Β β', name: 'Beta', sound: 'B wie Ball', speakText: 'Beta' },
@@ -274,7 +353,6 @@
             { char: 'Ω ω', name: 'Omega', sound: 'Langes O wie Oma', speakText: 'Omega' }
         ];
 
-        // === 2. SCHWIERIGE MITLAUTE ===
         const consonants = [
             { greek: 'Ψ ψ', rule: 'P + S Laut', phonetic: '[ ps ]', example: 'ψυχή (Seele)', speakText: 'ψυχή' },
             { greek: 'Ξ ξ', rule: 'K + S Laut', phonetic: '[ ks ]', example: 'ξένος (Fremder)', speakText: 'ξένος' },
@@ -284,7 +362,6 @@
             { greek: 'ΓΓ', rule: 'G + G wird zu "NG"', phonetic: '[ ng ]', example: 'ἄγγελος (Engel)', speakText: 'ἄγγελος' }
         ];
 
-        // === 3. WÖRTER DATENBANK ===
         const words = [
             { greek: 'οἶ - κος', phonetic: '[ eu - kos ]', german: 'Haus', emoji: '🏠', speakText: 'οἶκος' },
             { greek: 'οὐ - ρα - νός', phonetic: '[ u - ra - nos ]', german: 'Himmel', emoji: '🌌', speakText: 'ουρανός' },
@@ -295,7 +372,6 @@
             { greek: 'βί - βλος', phonetic: '[ bi - blos ]', german: 'Buch', emoji: '📚', speakText: 'βίβλος' }
         ];
 
-        // === 4. SÄTZE DATENBANK ===
         const sentences = [
             {
                 greekBlocks: [
@@ -319,9 +395,32 @@
             }
         ];
 
-        let currentSpeakText = '';
+        const quizData = [
+            {
+                q: "In welcher Stadt wurde die Demokratie (Mitentscheidung der Bürger) erfunden?",
+                options: ["Sparta", "Athen", "Rom"],
+                answer: 1
+            },
+            {
+                q: "Wofür war Sparta besonders bekannt?",
+                options: ["Große Bibliotheken &amp; Musik", "Philosophie &amp; Theater", "Tapfere Krieger, Mut &amp; Sport"],
+                answer: 2
+            },
+            {
+                q: "Was war den Menschen in Athen bei Kindern sehr wichtig?",
+                options: ["Bildung, Lesen, Dichten und Musik", "Nur das Kämpfen im Wald", "Keine Schule, nur Schlafen"],
+                answer: 0
+            },
+            {
+                q: "Wie heißt das berühmte Bauwerk auf dem Hügel in Athen?",
+                options: ["Kolosseum", "Akropolis", "Pyramide"],
+                answer: 1
+            }
+        ];
 
-        // Alphabet-Grid
+        let currentSpeakText = '';
+        let currentLetterChar = '';
+
         const grid = document.getElementById('alphabet-grid');
         alphabet.forEach(item => {
             const card = document.createElement('div');
@@ -335,7 +434,6 @@
             grid.appendChild(card);
         });
 
-        // Mitlaute-Grid
         const consonantsGrid = document.getElementById('consonants-grid');
         consonants.forEach(item => {
             const card = document.createElement('div');
@@ -351,7 +449,6 @@
             consonantsGrid.appendChild(card);
         });
 
-        // Wörter-Grid
         const wordsGrid = document.getElementById('words-grid');
         words.forEach(item => {
             const card = document.createElement('div');
@@ -367,7 +464,6 @@
             wordsGrid.appendChild(card);
         });
 
-        // Sätze-Liste
         const sentencesList = document.getElementById('sentences-list');
         sentences.forEach(item => {
             const card = document.createElement('div');
@@ -388,20 +484,51 @@
             sentencesList.appendChild(card);
         });
 
-        // Sprachausgabe auf Griechisch
+        const quizBox = document.getElementById('quiz-box');
+        quizData.forEach((qItem, qIndex) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'quiz-question';
+            qDiv.innerHTML = `<p><b>Frage ${qIndex + 1}:</b> ${qItem.q}</p>`;
+            
+            qItem.options.forEach((opt, optIndex) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.innerText = opt;
+                btn.onclick = () => checkQuizAnswer(btn, optIndex === qItem.answer);
+                qDiv.appendChild(btn);
+            });
+            quizBox.appendChild(qDiv);
+        });
+
+        function checkQuizAnswer(btn, isCorrect) {
+            const parent = btn.parentElement;
+            const options = parent.querySelectorAll('.quiz-option');
+            options.forEach(b => {
+                b.disabled = true;
+                b.style.cursor = 'default';
+            });
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                btn.innerText += "  ✅ Richtig!";
+            } else {
+                btn.classList.add('wrong');
+                btn.innerText += "  ❌ Huch, falsch!";
+            }
+        }
+
         function speak(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'el-GR'; // Griechische Stimme liest echtes Griechisch vor
-                utterance.rate = 0.7; // Etwas langsamer
+                utterance.lang = 'el-GR';
+                utterance.rate = 0.7;
                 window.speechSynthesis.speak(utterance);
             }
         }
 
         function speakCurrentLetter() { speak(currentSpeakText); }
 
-        // Modal & Malfeld
         const modal = document.getElementById('write-modal');
         const canvas = document.getElementById('paint-canvas');
         const ctx = canvas.getContext('2d');
@@ -409,21 +536,30 @@
 
         function openPractice(item) {
             currentSpeakText = item.speakText;
+            currentLetterChar = item.char.split(' ')[1] || item.char;
             document.getElementById('modal-title').innerText = `${item.name} (${item.char})`;
+            document.getElementById('feedback-msg').innerText = '';
             modal.style.display = 'flex';
-            clearCanvas();
-            speak(item.speakText);
             
+            clearUserStrokes();
+            speak(item.speakText);
+        }
+
+        function drawBackgroundLetter() {
             ctx.fillStyle = "#e0e0e0";
-            ctx.font = "110px sans-serif";
+            ctx.font = "120px sans-serif";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            const smallLetter = item.char.split(' ')[1] || item.char;
-            ctx.fillText(smallLetter, canvas.width / 2, canvas.height / 2);
+            ctx.fillText(currentLetterChar, canvas.width / 2, canvas.height / 2);
         }
 
         function closeModal() { modal.style.display = 'none'; }
-        function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+        
+        function clearUserStrokes() { 
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            drawBackgroundLetter();
+            document.getElementById('feedback-msg').innerText = '';
+        }
 
         function startPosition(e) { painting = true; draw(e); }
         function finishedPosition() { painting = false; ctx.beginPath(); }
@@ -437,7 +573,7 @@
             const x = clientX - rect.left;
             const y = clientY - rect.top;
 
-            ctx.lineWidth = 8;
+            ctx.lineWidth = 12;
             ctx.lineCap = 'round';
             ctx.strokeStyle = '#0056b3';
 
@@ -447,6 +583,55 @@
             ctx.moveTo(x, y);
         }
 
+        function checkWriting() {
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imgData.data;
+            
+            let letterPixels = 0;
+            let coveredPixels = 0;
+            let totalBluePixels = 0;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i], g = data[i+1], b = data[i+2], a = data[i+3];
+                
+                if (a > 0) {
+                    const isGray = (r === 224 && g === 224 && b === 224);
+                    const isBlue = (r === 0 && g === 86 && b === 179);
+
+                    if (isGray) {
+                        letterPixels++;
+                    }
+                    if (isBlue) {
+                        totalBluePixels++;
+                        letterPixels++; 
+                        coveredPixels++;
+                    }
+                }
+            }
+
+            if (totalBluePixels < 200) {
+                document.getElementById('feedback-msg').innerText = "✏️ Versuche erst, etwas zu zeichnen!";
+                document.getElementById('feedback-msg').style.color = "#e67e22";
+                return;
+            }
+
+            const accuracy = Math.min(100, Math.round((coveredPixels / letterPixels) * 100));
+            
+            let feedback = "";
+            if (accuracy > 70) {
+                feedback = `🌟 Super gemacht! (${accuracy}% Genauigkeit)`;
+                document.getElementById('feedback-msg').style.color = "#27ae60";
+            } else if (accuracy > 40) {
+                feedback = `👍 Gut! Spure noch genauer nach. (${accuracy}%)`;
+                document.getElementById('feedback-msg').style.color = "#f39c12";
+            } else {
+                feedback = `💪 Weiter üben! Bleib auf den grauen Linien. (${accuracy}%)`;
+                document.getElementById('feedback-msg').style.color = "#e74c3c";
+            }
+
+            document.getElementById('feedback-msg').innerText = feedback;
+        }
+
         canvas.addEventListener('mousedown', startPosition);
         canvas.addEventListener('mouseup', finishedPosition);
         canvas.addEventListener('mousemove', draw);
@@ -454,13 +639,13 @@
         canvas.addEventListener('touchend', finishedPosition);
         canvas.addEventListener('touchmove', draw);
 
-        // Navigation
         function showSection(section) {
             document.getElementById('alphabet-grid').style.display = section === 'alphabet' ? 'grid' : 'none';
             document.getElementById('consonants-grid').style.display = section === 'consonants' ? 'grid' : 'none';
             document.getElementById('diphthongs-container').style.display = section === 'diphthongs' ? 'block' : 'none';
             document.getElementById('words-grid').style.display = section === 'words' ? 'grid' : 'none';
             document.getElementById('sentences-container').style.display = section === 'sentences' ? 'block' : 'none';
+            document.getElementById('history-container').style.display = section === 'history' ? 'block' : 'none';
         }
     </script>
 </body>

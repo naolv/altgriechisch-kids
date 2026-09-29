@@ -201,12 +201,12 @@
     <p class="subtitle">Buchstaben, Sprache, Geschichte und Quiz!</p>
 
     <div class="mode-buttons">
-        <button class="nav-btn" onclick="showSection('alphabet')">🔤 Alphabet</button>
-        <button class="nav-btn" onclick="showSection('consonants')">⚡ Mitlaute-Trainer</button>
-        <button class="nav-btn" onclick="showSection('diphthongs')">🗣️ Doppelvokale</button>
-        <button class="nav-btn" onclick="showSection('words')">📖 Wörter lesen</button>
-        <button class="nav-btn" onclick="showSection('sentences')">🧩 Sätze bauen</button>
-        <button class="nav-btn" onclick="showSection('history')" style="background-color: #e67e22; box-shadow: 0 4px 0 #d35400;">🏛️ Athen &amp; Sparta</button>
+        <button class="nav-btn" onclick="showSection('alphabet')">Alphabet</button>
+        <button class="nav-btn" onclick="showSection('consonants')">Mitlaute-Trainer</button>
+        <button class="nav-btn" onclick="showSection('diphthongs')">Doppelvokale</button>
+        <button class="nav-btn" onclick="showSection('words')">Wörter lesen</button>
+        <button class="nav-btn" onclick="showSection('sentences')">Sätze bauen</button>
+        <button class="nav-btn" onclick="showSection('history')" style="background-color: #e67e22; box-shadow: 0 4px 0 #d35400;">Athen &amp; Sparta</button>
     </div>
 
     <div class="grid" id="alphabet-grid"></div>
@@ -278,7 +278,7 @@
     <div class="grid" id="words-grid" style="display: none;"></div>
 
     <div class="section-container" id="sentences-container">
-        <h2>Satz-Baumeister 🧩</h2>
+        <h2>Satz-Baumeister</h2>
         <p>Lerne einfache Sätze zu lesen und zu verstehen!</p>
         <div id="sentences-list"></div>
     </div>
@@ -287,24 +287,24 @@
         <h2>🏛️ Das alte Griechenland: Athen vs. Sparta</h2>
         
         <div class="history-box">
-            <h3>🦉 Athen – Die Stadt des Wissens und der Kunst</h3>
+            <h3>Athen – Die Stadt des Wissens und der Kunst</h3>
             <p>Athen war berühmt für Philosophen, Theater und schöne Bauwerke wie die Akropolis. Die Athener erfanden die <b>Demokratie</b> – eine Staatsform, in der die Bürger mitentscheiden durften. In Athen war Bildung sehr wichtig: Kinder lernten Lesen, Dichten, Rechnen und Musik.</p>
             <div class="example-box">
-                <b>💡 Konkretes Beispiel aus Athen:</b><br>
+                <b>Konkretes Beispiel aus Athen:</b><br>
                 Wenn in Athen ein neues Gesetz beschlossen werden sollte, trafen sich tausende Männer auf einem Hügel namens <i>Pnyx</i>. Jeder Bürger bekam einen kleinen Stein. Zum Abstimmen warf man seinen Stein in ein Tongefäss: Ein helfender Stein bedeutete „Ja“, ein anderer „Nein“. So zählte man am Ende einfach die Steine!
             </div>
         </div>
 
         <div class="history-box" style="border-left-color: #e74c3c;">
-            <h3>🛡️ Sparta – Die Stadt der tapferen Krieger</h3>
+            <h3>Sparta – Die Stadt der tapferen Krieger</h3>
             <p>Sparta war ganz anders als Athen. Hier drehte sich fast alles um Disziplin, Mut und Stärke. Schon ab 7 Jahren wurden die spartanischen Kinder in der Gemeinschaft ausgebildet, um starke und ausdauernde Bürger zu werden. Sport und Disziplin standen an oberster Stelle.</p>
             <div class="example-box" style="background: #fff5f5; border-color: #ffcccc;">
-                <b>💡 Konkretes Beispiel aus Sparta:</b><br>
+                <b>Konkretes Beispiel aus Sparta:</b><br>
                 Ein spartanischer Junge verließ mit 7 Jahren sein Zuhause und zog in ein Lager mit anderen Kindern (die sogenannte <i>Agoge</i>). Dort trug er das ganze Jahr über nur ein einziges leichtes Gewand – auch im kalten Winter – und lief barfuss. So lernten die Kinder gemeinsam, Ausdauer zu beweisen und nie schnell aufzugeben.
             </div>
         </div>
 
-        <h3>❓ Das große Athen &amp; Sparta Quiz</h3>
+        <h3>Das grosse Athen &amp; Sparta Quiz</h3>
         <p>Teste dein Wissen! Klicke auf die richtige Antwort:</p>
         
         <div id="quiz-box"></div>
@@ -318,10 +318,10 @@
             
             <div id="feedback-msg"></div>
 
-            <button class="action-btn" onclick="speakCurrentLetter()">🔊 Hören</button>
-            <button class="action-btn check-btn" onclick="checkWriting()">✨ Prüfen</button>
-            <button class="action-btn clear-btn" onclick="clearUserStrokes()">🗑️ Neuanfang</button>
-            <button class="action-btn close-btn" onclick="closeModal()">❌ Fertig</button>
+            <button class="action-btn" onclick="speakCurrentLetter()">Hören</button>
+            <button class="action-btn check-btn" onclick="checkWriting()">Prüfen</button>
+            <button class="action-btn clear-btn" onclick="clearUserStrokes()">Neuanfang</button>
+            <button class="action-btn close-btn" onclick="closeModal()">Fertig</button>
         </div>
     </div>
 
@@ -380,7 +380,7 @@
                     { text: 'τὴν βίβλον.', type: 'object' }
                 ],
                 phonetic: '[ Ho phi-los gra-phei tän bi-blon. ]',
-                german: '📝 Der Freund schreibt das Buch.',
+                german: 'Der Freund schreibt das Buch.',
                 speakText: 'Ὁ φίλος γράφει τὴν βίβλον.'
             },
             {
@@ -403,7 +403,7 @@
             },
             {
                 q: "Wofür war Sparta besonders bekannt?",
-                options: ["Große Bibliotheken &amp; Musik", "Philosophie &amp; Theater", "Tapfere Krieger, Mut &amp; Sport"],
+                options: ["Grosse Bibliotheken und Musik", "Philosophie und Theater", "Tapfere Krieger, Mut und Sport"],
                 answer: 2
             },
             {
@@ -412,7 +412,7 @@
                 answer: 0
             },
             {
-                q: "Wie heißt das berühmte Bauwerk auf dem Hügel in Athen?",
+                q: "Wie heisst das berühmte Bauwerk auf dem Hügel in Athen?",
                 options: ["Kolosseum", "Akropolis", "Pyramide"],
                 answer: 1
             }
@@ -510,10 +510,10 @@
 
             if (isCorrect) {
                 btn.classList.add('correct');
-                btn.innerText += "  ✅ Richtig!";
+                btn.innerText += " Richtig!";
             } else {
                 btn.classList.add('wrong');
-                btn.innerText += "  ❌ Huch, falsch!";
+                btn.innerText += " Huch, falsch!";
             }
         }
 
@@ -619,13 +619,13 @@
             
             let feedback = "";
             if (accuracy > 70) {
-                feedback = `🌟 Super gemacht! (${accuracy}% Genauigkeit)`;
+                feedback = `Super gemacht! (${accuracy}% Genauigkeit)`;
                 document.getElementById('feedback-msg').style.color = "#27ae60";
             } else if (accuracy > 40) {
-                feedback = `👍 Gut! Spure noch genauer nach. (${accuracy}%)`;
+                feedback = `Gut! Spure noch genauer nach. (${accuracy}%)`;
                 document.getElementById('feedback-msg').style.color = "#f39c12";
             } else {
-                feedback = `💪 Weiter üben! Bleib auf den grauen Linien. (${accuracy}%)`;
+                feedback = `Weiter üben! Bleib auf den grauen Linien. (${accuracy}%)`;
                 document.getElementById('feedback-msg').style.color = "#e74c3c";
             }
 
